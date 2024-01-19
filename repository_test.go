@@ -21,7 +21,7 @@ func (suite *RepositorySuite) SetupSuite() {
 }
 
 func (suite *RepositorySuite) TearDownSuite() {
-	suite.testDatabase.container.Terminate(context.Background())
+	suite.testDatabase.TearDown()
 }
 
 // All methods that begin with "Test" are run as tests within a
@@ -29,15 +29,16 @@ func (suite *RepositorySuite) TearDownSuite() {
 func (suite *RepositorySuite) TestCreateBook() {
 	suite.Run("when id is not provided", func() {
 		book := Book{
-			Author: "Dostoyevksi",
-			Title:  "Notes From the Underground",
+			Author: "Irvin D. Yalom",
+			Title:  "Staring at the Sun: Overcoming the Terror of Death",
 			Likes:  100,
 		}
 
 		createdBook, createBookErr := suite.repository.CreateBook(context.Background(), book)
 
 		suite.Nil(createBookErr)
-		suite.Equal(createdBook.Title, book.Title)
+		suite.Equal(createdBook.Title, "Staring at the Sun: Overcoming the Terror of Death")
+		suite.Equal(createdBook.Author, "Irvin D. Yalom")
 		suite.False(createdBook.ID.IsZero())
 	})
 
