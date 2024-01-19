@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func NewMongoDatabase(uri string) (*mongo.Database, error) {
+func NewMongoDatabase(uri string, database string) (*mongo.Database, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
@@ -16,7 +16,7 @@ func NewMongoDatabase(uri string) (*mongo.Database, error) {
 		return nil, err
 	}
 
-	db := client.Database("test")
+	db := client.Database(database)
 
 	return db, nil
 }

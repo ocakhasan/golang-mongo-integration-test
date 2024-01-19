@@ -63,7 +63,7 @@ func createMongoContainer(ctx context.Context) (testcontainers.Container, *mongo
 	log.Println("mongo container ready and running at port: ", p.Port())
 
 	uri := fmt.Sprintf("mongodb://root:pass@localhost:%s", p.Port())
-	db, err := NewMongoDatabase(uri)
+	db, err := NewMongoDatabase(uri, "testdb")
 	if err != nil {
 		return container, db, uri, fmt.Errorf("failed to establish database connection: %v", err)
 	}
